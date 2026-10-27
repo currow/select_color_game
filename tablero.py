@@ -1,5 +1,6 @@
 import random
-
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
 
 class Tablero:
     def __init__(self, tamano):
@@ -11,7 +12,7 @@ class Tablero:
     def get_color(self, fila, columna):
         return self.colores[fila][columna]
 
-    def rellena_tabla(self):
+    def fill_tablero(self):
         # Calculamos el color a usar como valor a seleccionar de manera aleatorio
         valor_fijo = f"#{random.randint(0, 0xFFFFFF):06X}"
 
@@ -33,4 +34,19 @@ class Tablero:
                 else: # En caso contrario, asignamos un color aleatorio
                     self.colores[fila][columna] = f"#{random.randint(0, 0xFFFFFF):06X}"
                 indice += 1
+
+    def show_tablero(self):
+        fig, ax = plt.subplots()
+        for fila in range(len(self.colores)):
+            for columna in range(len(self.colores[fila])):
+                color = self.colores[fila][columna]
+                rect = Rectangle((columna, len(self.colores) - fila - 1), 1, 1, facecolor=color)
+                ax.add_patch(rect)
+
+        ax.set_xlim(0, len(self.colores[0]))
+        ax.set_ylim(0, len(self.colores))
+        ax.set_aspect('equal')
+        plt.axis('off')
+        plt.show()
+
                 
